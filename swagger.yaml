@@ -23,11 +23,34 @@ servers:
 tags:
   - name: students
     description: Everything about related students
+  - name: login
+    description: Login into system
 paths:
+  /api/user/auth/login:
+    post:
+      tags:
+        - login
+      summary: Login into the system
+      requestBody:
+        description: Login and password
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login'
+      responses: 
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_res'
+        
   /api/journal/person/related-child-list?p_page=1:
     get:
       tags:
         - students
+      summary: Get related child list
       parameters:
         - name: p_page
           in: query
@@ -195,3 +218,48 @@ components:
           type: boolean
           default: true
           discription: i have no idea where it can be used and what is it
+    login:
+      type: object
+      properties: 
+        type:
+          type: string
+          default: email
+          discription: this is a way how to login into journal, there is also "eisa", but i don't use it
+        email:
+          type: string
+          example: goodnameformail@gmail.com
+          discription: email for login
+        activation_code:
+          type: string
+          example: null
+          description: this is a my idea how it should works based on name of variable. i get null instead
+        password:
+          type: string
+          example: StrongPassword2009
+          description: this is a password for login
+        _isEmpty:
+          type: boolean
+          default: false
+          description: this is probably is login or password provided
+    login_res:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            token:
+              type: string
+              example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIzI1NiJ9.eyJ1c2VySWQiOiI1ZTZmYmE2YThY2I1MDI0YWI0MDI4OTYiLCJs0QWN0aXZpdHkiOjE2Nzk2NDk2ODgsInR5cGUiOiJlbWFpbCIsImxhc3RJZCI6bnVsbH0.ypJzhqcZCIcSc8BYZrrIISRTN9QLvob2C-CHLeIDAFY
+              discription: this is a token, uses for make request to api
+        debug:
+          type: array
+          example: []
+          description: i have no idea where it can be used and what is is.
+        messages:
+          type: array
+          example: []
+          description: i have no idea where it can be used and what is is.
+        validations:
+          type: array
+          example: []
+          description: i have no idea where it can be used and what is is.
