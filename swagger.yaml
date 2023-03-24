@@ -1,0 +1,195 @@
+openapi: 3.1.0
+info:
+  title: dnevnik2 API 3.1
+  description: 
+    Documentation for online journal in sunny St. Petersburg 
+
+
+    Well, the documentation isn't ready yet, so if you see "Everything" or something like this keep in mind it isn't (yet).
+  license:
+    name: WTFPL
+    url: http://www.wtfpl.net/
+
+  version: 0.0.1
+
+externalDocs:
+  description: JS Library (WIP)
+  url: https://github.com/mikhaillav/spb_dnevnik
+
+servers:
+  - url: https://dnevnik2.petersburgedu.ru
+tags:
+  - name: students
+    description: Everything about related students
+paths:
+  /api/journal/person/related-child-list?p_page=1:
+    get:
+      tags:
+        - students
+      parameters:
+        - name: p_page
+          in: query
+          description: Page of an array of students 
+          required: false
+          explode: true
+          schema:
+            type: number
+            default: 1
+        - name: X-JWT-Token
+          in: cookie
+          description: Api token 
+          required: true
+          explode: true
+          schema:
+            type: string
+            example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIzI1NiJ9.eyJ1c2VySWQiOiI1ZTZmYmE2YThY2I1MDI0YWI0MDI4OTYiLCJs0QWN0aXZpdHkiOjE2Nzk2NDk2ODgsInR5cGUiOiJlbWFpbCIsImxhc3RJZCI6bnVsbH0.ypJzhqcZCIcSc8BYZrrIISRTN9QLvob2C-CHLeIDAFY
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/related-child-list'
+        '401':
+          description: Unauthorized, check token
+          
+
+
+components:
+  schemas: 
+    related-child-list:
+      type: object
+      properties:
+        data:
+          type: object
+          properties: 
+            before:
+              type: number
+              example: 1
+              description: i have no idea where it can be used and what is it. this is probably page number before current page xD
+            current:
+              type: number
+              example: 1
+              description: i have no idea where it can be used and what is is. this is probably page number
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/related-child'
+            last:
+              type: number
+              example: 1
+              description: i have no idea where it can be used and what is is. this is probably last page number
+            next:
+              type: number
+              example: 1
+              description: i have no idea where it can be used and what is is. this is probably next page number
+            total_items:
+              type: number
+              example: 1
+              description: this is how many items there are
+            total_pages:
+              type: number
+              example: 1
+              description: this is how many pages there are
+        debug:
+          type: array
+          example: []
+          description: i have no idea where it can be used and what is is.
+        messages:
+          type: array
+          example: []
+          description: i have no idea where it can be used and what is is.
+        validations:
+          type: array
+          example: []
+          description: i have no idea where it can be used and what is is.
+          
+
+    related-child:
+      type: object
+      properties:
+        action_payload:
+          type: object
+          properties:
+            can_apply_for_distance:
+              type: boolean
+            can_print:
+              type: boolean
+        educations:
+          type: array
+          items:
+            $ref: '#/components/schemas/education'
+        firstname:
+          type: string
+          example: Михаил
+        hash_uid:
+          type: string
+          example: 79dd7cf3dcfd509e81c604831beab603
+          description: i have no idea where it can be used and what is it. i also have no idea what algorithm was used here
+        middlename:
+          type: string
+          example: Петрович
+        surname: 
+          type: string
+          example: Зубенко
+          
+    education:
+      type: object
+      properties:
+        distance_education:
+          type: boolean
+          default: false
+        distance_education_updated_at:
+          type: object
+          description: this is a my idea how it should works based on name of variable. i get null instead. this is probably time object
+        education_id:
+          type: number
+          example: 130089
+          description: this is an id of a student
+        group_id:
+          type: number
+          example: 63398
+          description: this is an id of a class (group) where student is
+        group_name:
+          type: string
+          example: "7 ы"
+          description: this is a grade and a letter of a class (group) where student is
+        institution_id:
+          type: number
+          example: 1891
+          description: this is an id of a school where student is
+        institution_name:
+          type: string
+          example: "ГБОУ СОШ №580"
+          description: this is a name of the school
+        is_active:
+          type: boolean
+          description: this is a my idea how it should works based on name of variable. i get null instead. i also have no idea where it can be used and what is it
+        jurisdiction_id:
+          type: number
+          example: 15
+          description: this is an id of a district where school is
+        jurisdiction_name:
+          type: string
+          example: "Приморский"
+          description: this is a name of the district
+        parent_email:
+          type: string
+          example: "parentofchild@gmail.com"
+          description: this is a my idea how it should works based on name of variable. i get null instead
+        parent_firstname:
+          type: string
+          example: "Петр"
+          description: this is a my idea how it should works based on name of variable. i get null instead
+        parent_middlename:
+          type: string
+          example: "Даниилович"
+          description: this is a my idea how it should works based on name of variable. i get null instead
+        parent_surname:
+          type: string
+          example: "Зубенко"
+          description: this is a my idea how it should works based on name of variable. i get null instead
+        push_subscribe:
+          type: boolean
+          default: true
+          discription: i have no idea where it can be used and what is it
