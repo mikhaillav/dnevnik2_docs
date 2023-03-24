@@ -9,6 +9,7 @@ info:
     Well, the documentation isn't ready yet, so if you see "Everything" or something like this keep in mind it isn't (yet).
   license:
     name: WTFPL
+    identifier: WTFPL
     url: http://www.wtfpl.net/
 
   version: 0.0.1
